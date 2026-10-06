@@ -1,0 +1,1004 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SIMATS Library - Book Reservation System</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f7fb;
+    color: #222;
+}
+
+/* HEADER */
+
+header {
+    background: #172554;
+    color: white;
+    padding: 20px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    color: #facc15;
+}
+
+header span {
+    font-size: 14px;
+    color: #dbeafe;
+}
+
+/* HERO */
+
+.hero {
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: white;
+    padding: 45px 8%;
+    text-align: center;
+}
+
+.hero h2 {
+    font-size: 34px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 18px;
+}
+
+/* CONTAINER */
+
+.container {
+    width: 90%;
+    max-width: 1150px;
+    margin: 30px auto;
+}
+
+/* SEARCH BOX */
+
+.search-box {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.search-box h2 {
+    margin-bottom: 20px;
+    color: #172554;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 7px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.search-btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+    background: #172554;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.search-btn:hover {
+    background: #1e3a8a;
+}
+
+/* RESULTS */
+
+#results {
+    margin-top: 30px;
+}
+
+.section-title {
+    margin-bottom: 20px;
+    color: #172554;
+}
+
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.book-card {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.book-icon {
+    font-size: 45px;
+    margin-bottom: 10px;
+}
+
+.book-card h3 {
+    color: #172554;
+    margin-bottom: 12px;
+}
+
+.book-card p {
+    margin: 8px 0;
+    color: #555;
+}
+
+.status {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.available {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.taken {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.returned {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.reserve-btn {
+    width: 100%;
+    padding: 12px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.reserve-btn:hover {
+    background: #1d4ed8;
+}
+
+.disabled-btn {
+    background: #9ca3af;
+    cursor: not-allowed;
+}
+
+/* CONFIRMATION */
+
+.confirmation {
+    display: none;
+    background: #dcfce7;
+    border: 2px solid #22c55e;
+    padding: 25px;
+    border-radius: 12px;
+    margin-top: 30px;
+}
+
+.confirmation h2 {
+    color: #15803d;
+    margin-bottom: 15px;
+}
+
+.confirmation p {
+    margin: 8px 0;
+}
+
+/* FOOTER */
+
+footer {
+    background: #172554;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+/* MOBILE */
+
+@media (max-width: 850px) {
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .book-grid {
+        grid-template-columns: 1fr;
+    }
+
+    header {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .hero h2 {
+        font-size: 27px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<header>
+
+    <h1>📚 SIMATS Library</h1>
+
+    <span>
+        Cloud-Based Library Reservation System
+    </span>
+
+</header>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <h2>📖 Library Book Reservation</h2>
+
+    <p>
+        Search and reserve books from SIMATS Library
+    </p>
+
+</section>
+
+
+<div class="container">
+
+
+<!-- SEARCH SECTION -->
+
+<div class="search-box">
+
+    <h2>🔎 Search Library Books</h2>
+
+
+    <div class="form-grid">
+
+
+        <div>
+
+            <label>Book Title</label>
+
+            <input
+                type="text"
+                id="title"
+                placeholder="Enter book title"
+            >
+
+        </div>
+
+
+        <div>
+
+            <label>Author</label>
+
+            <input
+                type="text"
+                id="author"
+                placeholder="Enter author name"
+            >
+
+        </div>
+
+
+        <div>
+
+            <label>Publication</label>
+
+            <input
+                type="text"
+                id="publication"
+                placeholder="Enter publication"
+            >
+
+        </div>
+
+
+        <div>
+
+            <label>Year</label>
+
+            <select id="year">
+
+                <option value="">Any Year</option>
+
+                <option>2026</option>
+                <option>2025</option>
+                <option>2024</option>
+                <option>2023</option>
+                <option>2022</option>
+                <option>2021</option>
+                <option>2020</option>
+
+            </select>
+
+        </div>
+
+
+        <div>
+
+            <label>Edition</label>
+
+            <select id="edition">
+
+                <option value="">Any Edition</option>
+
+                <option>1st Edition</option>
+                <option>2nd Edition</option>
+                <option>3rd Edition</option>
+                <option>4th Edition</option>
+                <option>5th Edition</option>
+
+            </select>
+
+        </div>
+
+
+        <div>
+
+            <label>Status</label>
+
+            <select id="status">
+
+                <option value="">All Books</option>
+
+                <option value="Available">
+                    Available
+                </option>
+
+                <option value="Taken">
+                    Taken
+                </option>
+
+                <option value="Returned">
+                    Returned
+                </option>
+
+            </select>
+
+        </div>
+
+
+    </div>
+
+
+    <button
+        class="search-btn"
+        onclick="searchBooks()"
+    >
+
+        🔎 Search Books
+
+    </button>
+
+
+</div>
+
+
+<!-- RESULTS -->
+
+<div id="results"></div>
+
+
+<!-- CONFIRMATION -->
+
+<div
+    class="confirmation"
+    id="confirmation"
+>
+
+    <h2>
+        ✅ Book Reserved Successfully!
+    </h2>
+
+
+    <p>
+        <strong>Reservation ID:</strong>
+        <span id="reservationId"></span>
+    </p>
+
+
+    <p>
+        <strong>Student Name:</strong>
+        <span id="studentName"></span>
+    </p>
+
+
+    <p>
+        <strong>Book Title:</strong>
+        <span id="confirmTitle"></span>
+    </p>
+
+
+    <p>
+        <strong>Author:</strong>
+        <span id="confirmAuthor"></span>
+    </p>
+
+
+    <p>
+        <strong>Publication:</strong>
+        <span id="confirmPublication"></span>
+    </p>
+
+
+    <p>
+        <strong>Year:</strong>
+        <span id="confirmYear"></span>
+    </p>
+
+
+    <p>
+        <strong>Edition:</strong>
+        <span id="confirmEdition"></span>
+    </p>
+
+
+    <p>
+        <strong>Rack Number:</strong>
+        <span id="confirmRack"></span>
+    </p>
+
+
+    <p>
+        <strong>Status:</strong>
+        Reserved
+    </p>
+
+</div>
+
+
+</div>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <p>
+        © 2026 SIMATS Library
+    </p>
+
+    <p>
+        Cloud-Based SaaS Library Reservation System
+    </p>
+
+</footer>
+
+
+<script>
+
+
+/* SAMPLE LIBRARY DATABASE */
+
+const books = [
+
+    {
+        title: "Computer Networks",
+        author: "Andrew S. Tanenbaum",
+        publication: "Pearson",
+        year: "2023",
+        edition: "6th Edition",
+        copies: 5,
+        rack: "A-101",
+        status: "Available"
+    },
+
+
+    {
+        title: "Database System Concepts",
+        author: "Abraham Silberschatz",
+        publication: "McGraw Hill",
+        year: "2022",
+        edition: "7th Edition",
+        copies: 3,
+        rack: "A-102",
+        status: "Taken"
+    },
+
+
+    {
+        title: "Operating System Concepts",
+        author: "Abraham Silberschatz",
+        publication: "Wiley",
+        year: "2021",
+        edition: "10th Edition",
+        copies: 4,
+        rack: "A-103",
+        status: "Available"
+    },
+
+
+    {
+        title: "Python Programming",
+        author: "Mark Lutz",
+        publication: "O'Reilly",
+        year: "2024",
+        edition: "5th Edition",
+        copies: 6,
+        rack: "B-201",
+        status: "Returned"
+    },
+
+
+    {
+        title: "Artificial Intelligence",
+        author: "Stuart Russell",
+        publication: "Pearson",
+        year: "2023",
+        edition: "4th Edition",
+        copies: 2,
+        rack: "B-202",
+        status: "Available"
+    },
+
+
+    {
+        title: "Machine Learning",
+        author: "Tom Mitchell",
+        publication: "McGraw Hill",
+        year: "2022",
+        edition: "1st Edition",
+        copies: 3,
+        rack: "B-203",
+        status: "Taken"
+    },
+
+
+    {
+        title: "Software Engineering",
+        author: "Ian Sommerville",
+        publication: "Pearson",
+        year: "2023",
+        edition: "10th Edition",
+        copies: 5,
+        rack: "C-301",
+        status: "Available"
+    },
+
+
+    {
+        title: "Data Structures",
+        author: "Ellis Horowitz",
+        publication: "McGraw Hill",
+        year: "2021",
+        edition: "2nd Edition",
+        copies: 4,
+        rack: "C-302",
+        status: "Returned"
+    }
+
+];
+
+
+let displayedBooks = [];
+
+
+/* SEARCH BOOKS */
+
+function searchBooks() {
+
+
+    const title =
+        document
+        .getElementById("title")
+        .value
+        .toLowerCase();
+
+
+    const author =
+        document
+        .getElementById("author")
+        .value
+        .toLowerCase();
+
+
+    const publication =
+        document
+        .getElementById("publication")
+        .value
+        .toLowerCase();
+
+
+    const year =
+        document
+        .getElementById("year")
+        .value;
+
+
+    const edition =
+        document
+        .getElementById("edition")
+        .value;
+
+
+    const status =
+        document
+        .getElementById("status")
+        .value;
+
+
+    displayedBooks = books.filter(book => {
+
+
+        return (
+
+            book.title
+            .toLowerCase()
+            .includes(title)
+
+            &&
+
+            book.author
+            .toLowerCase()
+            .includes(author)
+
+            &&
+
+            book.publication
+            .toLowerCase()
+            .includes(publication)
+
+            &&
+
+            (year === "" || book.year === year)
+
+            &&
+
+            (edition === "" ||
+             book.edition === edition)
+
+            &&
+
+            (status === "" ||
+             book.status === status)
+
+        );
+
+    });
+
+
+    displayBooks(displayedBooks);
+
+}
+
+
+/* DISPLAY BOOKS */
+
+function displayBooks(bookList) {
+
+
+    const results =
+        document.getElementById("results");
+
+
+    if (bookList.length === 0) {
+
+
+        results.innerHTML = `
+
+            <div class="search-box">
+
+                <h2>
+                    ❌ No Books Found
+                </h2>
+
+                <p>
+                    Try another title, author,
+                    publication or year.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    let html = `
+
+        <h2 class="section-title">
+            📚 Available Library Books
+        </h2>
+
+        <p style="margin-bottom:20px;">
+            ${bookList.length}
+            book(s) found
+        </p>
+
+        <div class="book-grid">
+
+    `;
+
+
+    bookList.forEach((book, index) => {
+
+
+        let statusClass = "";
+
+
+        if (book.status === "Available") {
+
+            statusClass = "available";
+
+        }
+
+        else if (book.status === "Taken") {
+
+            statusClass = "taken";
+
+        }
+
+        else {
+
+            statusClass = "returned";
+
+        }
+
+
+        const canReserve =
+            book.status === "Available" ||
+            book.status === "Returned";
+
+
+        html += `
+
+            <div class="book-card">
+
+                <div class="book-icon">
+                    📖
+                </div>
+
+
+                <h3>
+                    ${book.title}
+                </h3>
+
+
+                <p>
+                    ✍️ <strong>Author:</strong>
+                    ${book.author}
+                </p>
+
+
+                <p>
+                    🏢 <strong>Publication:</strong>
+                    ${book.publication}
+                </p>
+
+
+                <p>
+                    📅 <strong>Year:</strong>
+                    ${book.year}
+                </p>
+
+
+                <p>
+                    📚 <strong>Edition:</strong>
+                    ${book.edition}
+                </p>
+
+
+                <p>
+                    📦 <strong>No. of Copies:</strong>
+                    ${book.copies}
+                </p>
+
+
+                <p>
+                    🗄️ <strong>Rack No:</strong>
+                    ${book.rack}
+                </p>
+
+
+                <span
+                    class="status ${statusClass}"
+                >
+                    ${book.status}
+                </span>
+
+
+                <br>
+
+
+                ${
+                    canReserve
+
+                    ?
+
+                    `<button
+                        class="reserve-btn"
+                        onclick="reserveBook(${index})"
+                    >
+                        📌 Reserve Book
+                    </button>`
+
+                    :
+
+                    `<button
+                        class="reserve-btn disabled-btn"
+                        disabled
+                    >
+                        ❌ Currently Taken
+                    </button>`
+                }
+
+
+            </div>
+
+        `;
+
+    });
+
+
+    html += `</div>`;
+
+
+    results.innerHTML = html;
+
+}
+
+
+/* RESERVE BOOK */
+
+function reserveBook(index) {
+
+
+    const book =
+        displayedBooks[index];
+
+
+    const studentName =
+        prompt(
+            "Enter your name:"
+        );
+
+
+    if (!studentName) {
+
+        alert(
+            "Reservation cancelled."
+        );
+
+        return;
+
+    }
+
+
+    const reservationId =
+        "SIMATS" +
+        Math.floor(
+            100000 +
+            Math.random() * 900000
+        );
+
+
+    document
+        .getElementById("reservationId")
+        .innerText =
+        reservationId;
+
+
+    document
+        .getElementById("studentName")
+        .innerText =
+        studentName;
+
+
+    document
+        .getElementById("confirmTitle")
+        .innerText =
+        book.title;
+
+
+    document
+        .getElementById("confirmAuthor")
+        .innerText =
+        book.author;
+
+
+    document
+        .getElementById("confirmPublication")
+        .innerText =
+        book.publication;
+
+
+    document
+        .getElementById("confirmYear")
+        .innerText =
+        book.year;
+
+
+    document
+        .getElementById("confirmEdition")
+        .innerText =
+        book.edition;
+
+
+    document
+        .getElementById("confirmRack")
+        .innerText =
+        book.rack;
+
+
+    document
+        .getElementById("confirmation")
+        .style.display =
+        "block";
+
+
+    document
+        .getElementById("confirmation")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+
+}
+
+
+/* SHOW ALL BOOKS WHEN PAGE LOADS */
+
+window.onload = function() {
+
+    displayedBooks = books;
+
+    displayBooks(books);
+
+};
+
+</script>
+
+
+</body>
+</html>
+```
